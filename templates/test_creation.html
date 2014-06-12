@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="Request%20Maker_files/ga.js" async="" type="text/javascript"></script><script src="Request%20Maker_files/bmi.js" language="javascript"></script><title>Request Maker</title> <meta charset="utf-8"><meta name="description" content="Request Maker: HTTP Requests made easy."><style>
+		body {
+			margin: 0;
+			background-color: #edf0f2;
+			font-family: "Arial", arial, sans-serif;
+			color: #75797d;
+			-webkit-font-smoothing: antialiased;
+		}
+		a {
+			text-decoration: none;
+			color: #485d6b;
+			font-weight: bold;
+		}
+		ul {
+			margin: 0;
+			padding: 0;
+			font-size: 14px;
+			list-style-type: none;
+		}
+		ul a.close {
+			font-size: 20px;
+		}
+		.btn {
+			color: #fff;
+			font-size: 13px;
+			font-weight: bold;
+			padding: 4px 13px;
+			text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+			border: 1px solid #4e6270;
+			background-color: #4e6270;
+			background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#556976), to(#475c6a));
+			background-image: -moz-linear-gradient(-90deg, #556976, #475c6a);
+			box-shadow: 0 1px 2px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.2);
+			-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.2);
+			-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.2);
+			border-radius: 30px;
+			-webkit-border-radius: 30px;
+			-moz-border-radius: 30px;
+			cursor: pointer;
+		}
+		.btn:active {
+			background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#475c6a), to(#556976));
+			background-image: -moz-linear-gradient(-90deg, #475c6a, #556976);
+		}
+		header {
+			display: block;
+			overflow: auto;
+			background-color: #4e6270;
+			color: #fff;
+			padding: 16px 20px;
+			text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+			background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#556976), to(#475c6a));
+			background-image: -moz-linear-gradient(-90deg, #556976, #475c6a);
+			box-shadow: 0 0 2px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.2);
+			-webkit-box-shadow: 0 0 2px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.2);
+			-moz-box-shadow: 0 0 2px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.2);			
+		}
+		header h1 {
+			float: left;
+			font-size: 16px;
+			margin: 0;
+		}
+		header select {
+			float: right;
+			margin: 0;
+		}
+		section {
+			position: relative;
+			display: block;
+			width: 700px;
+			margin: 0 auto;
+		}
+		input, textarea {
+			font-family: "Arial", arial, sans-serif;
+			color: #54595d;
+			font-size: 14px;
+			background-color: #fff;
+			border: none;
+			outline: none;
+			box-shadow: inset 0 1px 3px rgba(0,0,0,0.35), inset 0 0 1px rgba(0,0,0,0.15);
+			-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.35), inset 0 0 1px rgba(0,0,0,0.15);
+			-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.35), inset 0 0 1px rgba(0,0,0,0.15);
+			border-radius: 4px;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			-webkit-font-smoothing: antialiased;
+		}
+		form {
+			text-align: center;
+			padding: 24px 0;
+			margin-bottom: 80px;
+			background-color: #fff;
+			box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+			-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+			-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+		}
+		form label {
+			text-align: left;
+			display: block;
+			margin: 0 24px;
+			font-size: 18px;
+			font-weight: bold;
+		}
+		form label em {
+			float: right;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 12px;
+		}
+		form label a.btn {
+			float: right;
+		}
+		form input[type=text] {
+			margin: 10px 0 0 0;
+			width: 642px;
+			padding: 10px 5px;
+		}
+		form ul li {
+			margin-top: 15px;
+		}
+		form ul input[type=text] {
+			width: 220px;
+			margin-right: 20px;
+		}
+		form ul li input[type=text]:first-of-type {
+			margin-right: 40px;
+		}
+		form input[type=submit] {
+			display: inline-block;
+			padding: 13px 45px;
+			margin: 30px auto 0 auto;
+			font-size: 16px;
+		}
+		textarea {
+			display: block;
+			width: 690px;
+			height: 360px;
+			padding: 5px;
+			resize: none;
+		}
+		form textarea {
+			height: 100px;
+			width: 642px;
+			margin: 10px 0 0 0;
+		}
+		#headers, #req_headers {
+			height: 140px;
+		}
+		#returns {
+			display: none;
+		}
+		h4 {
+			font-size: 18px;
+			margin: 0 0 10px 0;
+		}
+		hr {
+			border: 0;
+			height: 1px;
+			background-color: #e6e8ea;
+			margin: 30px 0;
+		}
+		footer {
+			display: block;
+			padding: 40px 0;
+			font-size: 13px;
+		}
+		footer div {
+			margin-top: 10px;
+			font-size: 11px;
+		}
+		footer #help {
+			float: right;
+		}
+		#spinner {
+			position: absolute;
+			display: none;
+			margin-top: -40px;
+			width: 100%;
+			height: 47px;
+			z-index: 3;
+		}
+		#spinner_inner {
+			position: relative;
+			margin: 0 auto;
+			width: 48px;
+			height: 47px;
+			background: transparent url(images/spinner.png) no-repeat left top;	
+		}
+		#desc {
+			display: none;
+			position: fixed;
+			height: 100%;
+			width: 100%;
+			top: 0;
+			left: 0;
+			background-color: rgba(17,23,17,0.5);
+			box-shadow: inset 0 0 25px rgba(0,0,0,0.25);
+			-webkit-box-shadow: inset 0 0 25px rgba(0,0,0,0.25);
+			-moz-box-shadow: inset 0 0 25px rgba(0,0,0,0.25);
+		}
+		#desc .inner {
+			position: relative;
+			width:  500px;
+			padding: 30px;
+			margin: 0 auto;
+			background-color: #fff;
+			box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+			-webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+			-moz-box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+		}
+		#desc #close {
+			float: right;
+			font-size: 24px;
+			margin-top: -8px;
+		}
+		#req_head {
+			width: 100%;
+			overflow-y: auto;
+			max-height: 375px;
+		}
+		section ::-webkit-scrollbar-track {
+			background-color: transparent;
+		    border: 0px solid;
+		    margin: 8px;
+		    -webkit-border-radius: 6px;
+		}		
+		section ::-webkit-scrollbar {
+		    width: 7px;
+		    height: 7px;
+		}		
+		section ::-webkit-scrollbar-track-piece:disabled {
+		    display: none !important;
+		}		
+		section ::-webkit-scrollbar-thumb {
+			background-color: rgba(50,55,65,0.3);
+		    -webkit-border-radius: 6px;
+		}		
+		section ::-webkit-scrollbar-thumb:hover {
+			background-color: rgba(50,55,65,0.4);
+		}		
+		section ::-webkit-scrollbar-thumb:active {
+			background-color: rgba(50,55,65,0.5);
+		}
+	</style> <!--[if lt IE 9]><script src="js/html5.js"></script> <![endif]--></head><body><section> 
+
+	<header><h1>Request Maker</h1><select id="type"><optgroup label="Request Type">
+	<option selected="selected" value="POST">POST</option>
+	<option value="GET">GET</option>
+	<option value="PUT">PUT</option>
+	<option value="DELETE">DELETE</option>
+	</optgroup></select> </header>
+
+
+	<form id="mfrm" action="/submit_request" method="post">
+
+	<label>Request URL: <em>Example: <b>mysite.com</b></em> <input id="url" name="url" type="text"></label>
+
+	<hr><label>Headers: <em>Example: </em> <textarea id="stringmm" name="headers"></textarea></label>
+
+	<hr><label>Request Data: <em>Example: <b>foo=bar&amp;guy=cool</b></em> <textarea id="string" name="string"></textarea></label> <input class="btn" value="Submit" type="submit"></form><div id="spinner"><div style="background-position: -480px top;" id="spinner_inner"></div></div><div id="returns"><h4>Request Headers Sent:</h4><textarea id="req_headers" readonly="readonly"></textarea><hr><h4>Response Headers:</h4><textarea id="headers" readonly="readonly"></textarea><hr><h4>Response Body:</h4><textarea id="result" readonly="readonly"></textarea></div><footer> 
+
+
+	
+
+
+<script src="Request%20Maker_files/jquery.js"></script> 
+<script>				
+			$("#frm").submit(function(){
+				var url = $("#url").val(),
+					string = $("#string").val(),
+					type = $("#type option:selected").val(),
+					heads = $("#req_head input[name^=header]"),
+					head_vals = $("#req_head input[name^=head_val]"),
+					ahead = true;
+				if(url == ""){
+					alert("You must enter a URL to make a request.");
+					ahead = false;
+				}
+				if (ahead){
+					$("#returns").css({opacity: "0.2"});
+					$("#spinner").show();
+					var frm_data = {
+						url: url,
+						string: string,
+						type: type,
+					};
+					for(var i=0; i < heads.length; i++){
+						frm_data['header['+i+']'] = heads[i].value+": "+head_vals[i].value;
+					}
+					$.post("/submit_request", frm_data, function(data) {	
+						data = data.split("\n\r", 3);
+						var body = data[2].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+		  				$("#result").html(body);
+		  				$("#req_headers").html(data[0]);
+		  				$("#headers").html(data[1]);
+		  				$("#spinner").hide();
+		  				$("#returns").css({opacity: "1"}).show();
+					});
+				}
+				return false;
+			});
+			
+			$("#help").click(function(){
+				$("#desc").show();
+				return false;
+			});
+			
+			
+			$("#close").click(function(){
+				$("#desc").hide();
+				return false;
+			});
+			
+			$("#req_head li a.close").live("click", function(){
+				$(this).parent().remove();
+				return false;
+			});
+			
+			var currentFrame = 0, offset = 0, frames = 12, interval = false;;
+			function bg_animate() {
+				offset = currentFrame * 48;
+				document.getElementById('spinner_inner').style.backgroundPosition = "-"+ offset + 'px' + ' top';
+				currentFrame = (currentFrame == (frames - 1)) ? 1 : currentFrame + 1;
+			}
+			interval = setInterval(bg_animate, parseInt(900/frames));
+	
+		</script>
+	
+</body></html>
