@@ -20,21 +20,6 @@ class request_form (forms.Form):
     #headers = models.CharField(max_length=255, null=True, blank=True)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def id_generator(size=50, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
 
@@ -42,6 +27,9 @@ def id_generator(size=50, chars=string.ascii_uppercase + string.digits):
 def home(request):
     
     if request.method == 'GET':
+        if request.user.is_authenticated():
+            return HttpResponseRedirect('/profile')
+            
         return render_to_response("landing_page.html", {} , RequestContext(request)) 
         
     user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
@@ -52,7 +40,7 @@ def home(request):
         else:
             return render_to_response("landing_page.html", { 'error' : 'User was suspended' } , RequestContext(request)) 
     else:
-        return render_to_response("test_creation.html", { 'error' : 'User does not exist' } , RequestContext(request)) 
+        return HttpResponseRedirect('') 
             
             
     
@@ -66,7 +54,7 @@ def profile(request):
 def create_test_case(request):
 
     Test_Case.objects.create(name=request.POST.get('name'))
-    return render_to_response("profile_page.html", { 'success' : 'Test was created successfully' } , RequestContext(request)) 
+    return render_to_response("test_creation.html", { 'success' : 'Test was created successfully' } , RequestContext(request)) 
     
     
 
@@ -76,7 +64,7 @@ def create_listener(request, test_case_id):
     test_case = Test_Case.objects.get(id=test_case_id)
     listener = Listener.objects.create(testing_url=str(request.user.username)+id_generator(), belong_to_test_case=test_case)
     unique_listener = 'http://'+request.get_host()+'/test_case/listener/' + str(listener.testing_url)
-    return render_to_response("profile_page.html", { 'Listener_url' : unique_listener } , RequestContext(request)) 
+    return render_to_response("test_creation.html", { 'Listener_url' : unique_listener } , RequestContext(request)) 
     
 @login_required
 def create_request(request, test_case_id):
@@ -87,11 +75,11 @@ def create_request(request, test_case_id):
         if form.is_valid():
             test_case = Test_Case.objects.get(id = test_case_id)
             new_request = Request.objects.create(url = form.url, body = form.body, method = form.method, belong_to_test_case = test_case)
-            
             p = urlparse(form.url)
-            if(p.scheme = 'http'):
+            
+            if p.scheme == 'http':
                 con = httplib.HTTPConnection(p.hostname(), 80)
-            elif(p.scheme = 'https'):
+            elif p.scheme == 'https' :
                 con = httplib.HTTPSConnection(p.hostname(), 443)
             else:
                 return render_to_response("profile_page.html", { 'error' : 'Only http and https protocols are supported' } , RequestContext(request))
@@ -103,8 +91,5 @@ def create_request(request, test_case_id):
 
         else:
             return render_to_response("profile_page.html", { 'error' : 'One of the fields you have entered is invalid' } , RequestContext(request))
-
-
-    
 
 
